@@ -1,0 +1,52 @@
+FROM php:7.3-fpm
+
+# Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
+#         "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        libmemcached-dev \
+        libz-dev \
+        libpq-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libmcrypt-dev \
+        gcc \
+        make \
+        autoconf \
+        libc-dev \
+        pkg-config \
+        libmagickwand-dev \
+        wget
+
+# Install the PHP extensions
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_pgsql
+RUN docker-php-ext-install mysqli
+
+# Composer installation.
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+#####################################
+# gd:
+#####################################
+
+# Install the PHP gd library
+RUN docker-php-ext-configure gd \
+        --with-jpeg-dir=/usr/lib \
+        --with-freetype-dir=/usr/include/freetype2 && \
+    docker-php-ext-install gd
+
+#Instal PHP-PEAR
+RUN wget http://pear.php.net/go-pear.phar
+RUN php go-pear.phar
+
+#Install Imagick
+RUN pecl install imagick
+RUN ls -al /usr/local/etc/php
+RUN bash -c "echo extension=imagick.so > /usr/local/etc/php/conf.d/imagick.ini"
+
+# Set PHP work directory
+WORKDIR /var/www/html
