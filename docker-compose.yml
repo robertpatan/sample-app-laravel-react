@@ -7,47 +7,45 @@ services:
     networks:
       - mg-network
 
-#  pgsql-mg:
-#    image: postgres:9.6.6-alpine
-#    #    restart: unless-stopped
-#    ports:
-#      - ${DB_PORT}:5432
-#    environment:
-#      POSTGRES_PASSWORD: ${DB_PASSWORD}
-#      POSTGRES_USER: ${DB_USERNAME}
-#      POSTGRES_DB: ${DB_DATABASE}
-#    networks:
-#      - mg-network
+  mongodb-mg:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ${DB_STORAGE}:/data/db
+    ports:
+      - ${DB_PORT}:27017
 
-  php7.3-mg:
+  php7.4-mg:
     build:
       context: docker/php
       dockerfile: php.docker
-    container_name: php7.3-mg
+    container_name: php7.4-mg
     ports:
-      - "9000:9000"
-#    expose:
-#      - "9000"
+      - 9000:9000
     volumes:
       - ${PHP_INI_PATH}:/usr/local/etc/php/php.ini
       - ${APPLICATION_PATH}:/var/www/html
     links:
 #      - pgsql-mg
       - redis-mg
+      - mongodb-mg
     networks:
       - mg-network
 
-  nginx-up:
+  nginx-mg:
     image: nginx:stable-alpine
     volumes:
-      - ${APPLICATION_PATH}:/var/www/html:cached
+      - ${APPLICATION_PATH}:/var/www/html
       - ${NGINX_CONF_PATH}:/etc/nginx/conf.d
     ports:
-      - "${NGINX_HOST_HTTP_PORT}:80"
-      - "${NGINX_HOST_HTTPS_PORT}:443"
+      - ${NGINX_HOST_HTTP_PORT}:80
+      - ${NGINX_HOST_HTTPS_PORT}:443
     links:
-      - php7.3-mg
-#      - pgsql-mg
+      - php7.4-mg
+      - mongodb-mg
     networks:
       - mg-network
 

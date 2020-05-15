@@ -165,7 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */
