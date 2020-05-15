@@ -6,7 +6,6 @@ namespace App\Http\Repository;
 
 use App\Http\Entity\MovieEntity;
 use Exception;
-use GuzzleHttp\Client;
 
 class MovieRepository extends AbstractRepository
 {

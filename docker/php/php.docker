@@ -29,10 +29,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
       soap \
       xsl \
       zip \
-      sockets
+      sockets \
+      mongodb
 # already installed:
 #      iconv \
 #      mbstring \
+
 
 
 # Composer installation.
