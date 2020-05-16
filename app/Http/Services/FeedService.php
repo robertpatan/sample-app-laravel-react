@@ -19,10 +19,7 @@ class FeedService
             throw new Exception('Movie env variable FEED_URL is not configured.');
         }
         
-//        $client = new Client();
-//        $response = $client->get($url);
         $json = Util::cleanJsonString(file_get_contents($url));
-        
         
         return collect(json_decode($json, true));
     }

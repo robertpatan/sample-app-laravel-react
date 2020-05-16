@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 
 namespace App\Http\Repository;
 
 
-abstract class AbstractRepository
+class Repository
 {
     protected object $model;
     

@@ -1,14 +1,8 @@
-<?php /** @noinspection ALL */
-
+<?php declare(strict_types=1);
 
 namespace App\Http\Services;
 
-
-use App\Helper\Util;
 use App\Http\Repository\MovieRepository;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 
 class MovieService
 {
@@ -18,6 +12,7 @@ class MovieService
     /**
      * MovieService constructor.
      * @param  MovieRepository  $movieRepository
+     * @param  FeedService  $feedService
      */
     public function __construct(
         MovieRepository $movieRepository,
@@ -50,10 +45,4 @@ class MovieService
     {
         return $this->movieRepository->create($movieData);
     }
-    
-    
-    
-    
-    
-    
 }

@@ -4,10 +4,9 @@
 namespace App\Http\Repository;
 
 
-use App\Http\Contracts\MovieRepositoryInterface;
 use App\Http\Models\Movie;
 
-class MovieRepository extends AbstractRepository
+class MovieRepository extends Repository
 {
     /**
      * MovieRepository constructor.

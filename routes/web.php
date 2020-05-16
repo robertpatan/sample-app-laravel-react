@@ -13,4 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'AppController@test');
+Route::get('/app{any?}', function () {
+    return view('app');
+})->where('any', '.*')->name('app');
