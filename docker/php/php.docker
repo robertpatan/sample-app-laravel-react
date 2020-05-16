@@ -29,12 +29,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
       soap \
       xsl \
       zip \
-      sockets \
-      mongodb
+      sockets
 # already installed:
 #      iconv \
 #      mbstring \
 
+RUN install-php-extensions mongodb
 
 
 # Composer installation.

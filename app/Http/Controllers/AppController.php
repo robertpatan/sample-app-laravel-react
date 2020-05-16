@@ -31,9 +31,11 @@ class AppController extends Controller
     
     public function test()
     {
+    
         
+        $movies = $this->movieService->list();
         
-        $this->movieService->all();
+        dd($movies);
         
 //        dd(Redis::hmget('user:1', ['id', 'body']));
 //        $keyId = $this->movieRepository->generateKeyId();

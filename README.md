@@ -11,7 +11,8 @@ packages/libraries required to deploy, you will also have to supply deployment i
 
  AppController
  Repository - Elements in list, Split by components?
- Entity
+
+https://www.smashingmagazine.com/2020/03/infinite-scroll-lazy-image-loading-react/
 
  https://github.com/Intervention/imagecache
 

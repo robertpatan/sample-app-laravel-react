@@ -4,8 +4,6 @@ services:
     image: redis
     expose:
       - 6379
-    networks:
-      - mg-network
 
   mongodb-mg:
     image: mongo:latest
@@ -17,6 +15,8 @@ services:
       - ${DB_STORAGE}:/data/db
     ports:
       - ${DB_PORT}:27017
+    links:
+      - php7.4-mg
 
   php7.4-mg:
     build:
@@ -29,11 +29,7 @@ services:
       - ${PHP_INI_PATH}:/usr/local/etc/php/php.ini
       - ${APPLICATION_PATH}:/var/www/html
     links:
-#      - pgsql-mg
       - redis-mg
-      - mongodb-mg
-    networks:
-      - mg-network
 
   nginx-mg:
     image: nginx:stable-alpine
@@ -45,11 +41,3 @@ services:
       - ${NGINX_HOST_HTTPS_PORT}:443
     links:
       - php7.4-mg
-      - mongodb-mg
-    networks:
-      - mg-network
-
-
-networks:
-  mg-network:
-    driver: bridge

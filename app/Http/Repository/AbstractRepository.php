@@ -3,77 +3,31 @@
 
 namespace App\Http\Repository;
 
-use App\Helper\Util;
-use Exception;
 
 abstract class AbstractRepository
 {
-    protected object $entity;
+    protected object $model;
     
     /**
-     * @param  string  $key
+     * @return mixed
      */
-    public function findByKey(string $key, $attributes = null)
+    public function getAll()
     {
-        $this->entity->findByKey($key, $attributes);
+        return $this->model->get();
+    }
+    
+    public function findById($id)
+    {
+        return $this->model->find($id);
     }
     
     /**
-     * @param  string  $keyId
-     * @param  array  $keyValueData
-     * @return object
-     * @throws Exception
+     * @param $modelData
+     * @return mixed
      */
-    public function create(array $keyValueData, $keyId = null): object
+    public function create($modelData)
     {
-        if(!$keyId) {
-            $keyId = $this->generateKeyId($keyValueData['id'] ?? Util::generateUid());
-        }
-        
-        return $this->entity->create($keyId, $keyValueData);
+        return $this->model->create($modelData);
     }
-    
-    
-    /**
-     * @param  array  $records
-     * @param  null  $keyPrefix
-     * @return array
-     */
-    public function createMany(array $records, $keyPrefix = null): iterable
-    {
-        return collect(
-            array_map(function ($recordData, $key) use ($keyPrefix) {
-                
-                if (isset($recordData['id'])) {
-                    $id = $recordData['id'];
-                } else {
-                    $id = $key;
-                }
-                
-                $keyId = $this->generateKeyId($id, $keyPrefix);
-                
-                return $this->entity->create($keyId, $recordData);
-            }, $records)
-        );
-    }
-    
-    /**
-     *
-     *
-     * @param $id
-     * @param  null  $keyPrefix
-     * @return string
-     */
-    public function generateKeyId(string $id, $keyPrefix = null): string
-    {
-        $keyId = $this->entity->generateKeyId($id);
-        
-        if ($keyPrefix) {
-            $keyId = $keyPrefix.$keyId;
-        }
-        
-        return $keyId;
-    }
-    
     
 }

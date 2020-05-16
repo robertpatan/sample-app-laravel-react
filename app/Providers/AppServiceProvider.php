@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Http\Entity\MovieEntity;
+use App\Http\Contracts\MovieRepositoryInterface;
 use App\Http\Repository\MovieRepository;
-use App\Http\Services\MovieService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,9 +19,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
     
-        $this->app->bind(MovieRepository::class, fn($app) => new MovieRepository(new MovieEntity()));
+//        $this->app->bind(MovieRepositoryInterface::class, MovieRepository::class);
         
-        $this->app->bind(MovieService::class, fn($app) => new MovieService(new MovieRepository( new MovieEntity())));
     }
 
     /**

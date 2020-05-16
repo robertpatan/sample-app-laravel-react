@@ -16,7 +16,7 @@ class Util
      */
     public static function cleanJsonString(string $jsonString)
     {
-        return preg_replace('/[\x00-\x1F\x80-\xFF]|\r\n|\r|\n/', '', $jsonString);
+       return preg_replace('/[\x00-\x1F\x80-\xFF]|\r\n|\r|\n/', '', $jsonString);
     }
     
     /**
