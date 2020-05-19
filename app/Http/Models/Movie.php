@@ -2,8 +2,12 @@
 
 namespace App\Http\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Http\Models\Pivot\ArtImageMovie;
+use App\Http\Models\Pivot\CardImageMovie;
+use App\Http\Models\Pivot\CastMovie;
+use App\Http\Models\Pivot\DirectorMovie;
+use App\Http\Models\Pivot\GenreMovie;
+use App\Http\Models\Pivot\MovieVideo;
 use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
@@ -16,63 +20,71 @@ class Movie extends Model
         'class',
         'duration',
         'headline',
-        'lastUpdated',
         'quote',
-        'reviewAuthor',
+        'review_author_id',
         'rating',
         'year',
-        'skyGoId',
-        'skyGoUrl',
+        'sky_go_id',
+        'sky_go_url',
         'sum',
         'synopsis',
         'url',
     ];
     
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function viewingWindow(): HasOne
+    public function viewingWindow(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(MovieViewingWindow::class);
     }
     
     /**
-     * @return HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function cardImages(): HasManyThrough
+    public function cardImages(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasManyThrough(Image::class, MovieCardImage::class);
+        return $this->belongsToMany(Image::class, 'card_image_movie')->using(CardImageMovie::class);
     }
     
     /**
-     * @return HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function keyArtImages(): HasManyThrough
+    public function keyArtImages(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasManyThrough(Image::class, MovieArtImage::class);
+        return $this->belongsToMany(Image::class, 'art_image_movie')->using(ArtImageMovie::class);
     }
     
     /**
-     * @return HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function directors(): HasManyThrough
+    public function directors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasManyThrough(Person::class, MovieDirector::class);
+        return $this->belongsToMany(Person::class, 'director_movie')->using(DirectorMovie::class);
     }
     
     /**
-     * @return HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function cast(): HasManyThrough
+    public function cast(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasManyThrough(Person::class, MovieCast::class);
+        return $this->belongsToMany(Person::class, 'cast_movie')->using(CastMovie::class);
     }
     
     /**
-     * @return HasManyThrough
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function genres(): HasManyThrough
+    public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasManyThrough(Person::class, MovieGenre::class);
+        return $this->belongsToMany(Genre::class, 'genre_movie')->using(GenreMovie::class);
     }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function videos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Video::class, 'movie_video')->using(MovieVideo::class);
+    }
+    
 }

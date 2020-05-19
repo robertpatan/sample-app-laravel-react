@@ -10,4 +10,9 @@ class Video extends Model {
         'type',
         'url'
     ];
+    
+    public function alternatives()
+    {
+        return $this->hasMany(AlternativeVideo::class);
+    }
 }

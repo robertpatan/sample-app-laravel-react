@@ -15,14 +15,14 @@ class CreateMoviesTable extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('uid');
+            $table->string('uid')->nullable();
             $table->text('body')->nullable();
             $table->string('cert')->nullable();
             $table->string('class')->nullable();
             $table->integer('duration')->default(0);
             $table->string('headline')->nullable();
             $table->string('quote')->nullable();
-            $table->string('review_author_id')->nullable();
+            $table->integer('review_author_id')->nullable();
             $table->integer('rating')->default(0);
             $table->integer('year')->default(0);
             $table->string('sky_go_id')->nullable();
@@ -45,6 +45,6 @@ class CreateMoviesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movie');
+        Schema::dropIfExists('movies');
     }
 }

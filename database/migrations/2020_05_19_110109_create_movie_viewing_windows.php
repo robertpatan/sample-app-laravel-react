@@ -15,10 +15,13 @@ class CreateMovieViewingWindows extends Migration
     {
         Schema::create('movie_viewing_windows', function (Blueprint $table) {
             $table->id();
-            $table->string('way_to_watch');
-            $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            $table->unsignedBigInteger('movie_id');
+            $table->string('way_to_watch')->nullable();
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('end_at')->nullable();
             $table->timestamps();
+    
+            $table->foreign('movie_id')->references('id')->on('movies')->cascadeOnDelete();
         });
     }
 

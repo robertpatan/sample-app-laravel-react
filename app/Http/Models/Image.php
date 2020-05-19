@@ -10,5 +10,9 @@ class Image extends Model {
         'height',
         'width'
     ];
-
+    
+//    public function movies() {
+//        return $this->belongsToMany(Movie::class)->using(CardImageMovie::class);
+//    }
+    
 }

@@ -25,7 +25,7 @@ class Repository
      * @param $modelData
      * @return mixed
      */
-    public function create($modelData)
+    public function create(array $modelData)
     {
         return $this->model->create($modelData);
     }

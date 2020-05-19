@@ -13,10 +13,10 @@ class CreateMovieCasts extends Migration
      */
     public function up()
     {
-        Schema::create('movie_casts', function (Blueprint $table) {
+        Schema::create('cast_movie', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('movie_id')->constrained();
-            $table->foreignId('person_id')->constrained();
+            $table->unsignedBigInteger('movie_id');
+            $table->unsignedBigInteger('person_id');
             $table->timestamps();
     
             $table->foreign('movie_id')->references('id')->on('movies');

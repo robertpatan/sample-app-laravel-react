@@ -4,7 +4,7 @@
 namespace App\Http\Services;
 
 
-use App\Helper\Util;
+use App\Http\Helper\Util;
 
 class FeedService
 {

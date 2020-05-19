@@ -13,14 +13,14 @@ class CreateMovieVideos extends Migration
      */
     public function up()
     {
-        Schema::create('movie_videos', function (Blueprint $table) {
+        Schema::create('movie_video', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('movie_id')->constrained();
-            $table->foreignId('video_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('movie_id');
+            $table->unsignedBigInteger('video_id');
             $table->timestamps();
     
             $table->foreign('movie_id')->references('id')->on('movies');
-            $table->foreign('video_id')->references('id')->on('videos');
+            $table->foreign('video_id')->references('id')->on('videos')->cascadeOnDelete();
         });
     }
 
@@ -31,6 +31,6 @@ class CreateMovieVideos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movie_videos');
+        Schema::dropIfExists('movie_video');
     }
 }

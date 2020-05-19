@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Helper;
+namespace App\Http\Helper;
 
 
 use Exception;

@@ -13,11 +13,14 @@ class CreateVideoAlternatives extends Migration
      */
     public function up()
     {
-        Schema::create('video_alternatives', function (Blueprint $table) {
+        Schema::create('alternative_videos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('video_id');
             $table->string('quality');
             $table->string('url');
             $table->timestamps();
+    
+            $table->foreign('video_id')->references('id')->on('videos')->cascadeOnDelete();
         });
     }
 
@@ -28,6 +31,6 @@ class CreateVideoAlternatives extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('video_alternatives');
+        Schema::dropIfExists('alternative_videos');
     }
 }

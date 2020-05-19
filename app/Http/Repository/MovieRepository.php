@@ -32,26 +32,30 @@ class MovieRepository extends Repository
      * @param $movieData
      * @return mixed
      */
-    public function create($movieData)
+    public function insert($movieData)
     {
         $model = new $this->model();
         $model->uid = $movieData['id'];
         $model->body = $movieData['body'];
         $model->cert = $movieData['cert'];
+        $model->class = $movieData['class'];
         $model->duration = $movieData['duration'];
         $model->headline = $movieData['headline'];
         $model->quote = $movieData['quote'] ?? null;
-        $model->reviewAuthor = $movieData['reviewAuthor'] ?? null;
+        $model->review_author_id = $movieData['reviewAuthorId'] ?? null;
         $model->rating = $movieData['rating'] ?? 0;
         $model->year = $movieData['year'];
-        $model->skyGoId = $movieData['skyGoId'] ?? null;
-        $model->skyGoUrl = $movieData['skyGoUrl'] ?? null;
+        $model->sky_go_id = $movieData['skyGoId'] ?? null;
+        $model->sky_go_url = $movieData['skyGoUrl'] ?? null;
         $model->sum = $movieData['sum'];
         $model->synopsis = $movieData['synopsis'];
         $model->url = $movieData['url'];
         $model->updated_at = $movieData['lastUpdated'];
+        $model->save();
     
-        return $model->save();
+        return $model;
     }
+    
+    
     
 }
