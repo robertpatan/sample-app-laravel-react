@@ -14,7 +14,7 @@ class CreateMoviesTable extends Migration
     public function up()
     {
         Schema::create('movies', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('uid');
             $table->text('body')->nullable();
             $table->string('cert')->nullable();
@@ -22,17 +22,19 @@ class CreateMoviesTable extends Migration
             $table->integer('duration')->default(0);
             $table->string('headline')->nullable();
             $table->string('quote')->nullable();
-            $table->string('reviewAuthor')->nullable();
+            $table->string('review_author_id')->nullable();
             $table->integer('rating')->default(0);
             $table->integer('year')->default(0);
-            $table->string('skyGoId')->nullable();
-            $table->string('skyGoUrl')->nullable();
+            $table->string('sky_go_id')->nullable();
+            $table->string('sky_go_url')->nullable();
             $table->string('sum')->nullable();
             $table->text('synopsis')->nullable();
             $table->string('url')->nullable();
             $table->timestamps();
             
             $table->index('uid');
+    
+            $table->foreign('review_author_id')->references('id')->on('persons');
         });
     }
 

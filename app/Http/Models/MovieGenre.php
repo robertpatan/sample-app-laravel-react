@@ -2,7 +2,7 @@
 
 namespace App\Http\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class MovieGenre extends Model {
     protected $fillable = [
