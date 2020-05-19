@@ -4,6 +4,11 @@ namespace App\Http\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class MovieArtImage extends Model {
-
+class MovieArtImage extends Model
+{
+    
+    protected $fillable = [
+        'movie_id',
+        'image_id'
+    ];
 }

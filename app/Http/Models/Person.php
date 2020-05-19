@@ -4,6 +4,10 @@ namespace App\Http\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class Person extends Model {
-
+class Person extends Model
+{
+    
+    protected $fillable = [
+        'name',
+    ];
 }

@@ -16,6 +16,8 @@ https://www.smashingmagazine.com/2020/03/infinite-scroll-lazy-image-loading-reac
 
  https://github.com/Intervention/imagecache
 
+ https://github.com/mjsarfatti/create-react-app-laravel/
+
 
 #Items
  - cache whole object

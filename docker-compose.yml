@@ -5,18 +5,33 @@ services:
     expose:
       - 6379
 
-  mongodb-mg:
-    image: mongo:latest
+#  mongodb-mg:
+#    image: mongo:latest
+#    environment:
+#      MONGO_INITDB_DATABASE: ${DB_DATABASE}
+#      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+#      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+#    volumes:
+#      - ${DB_STORAGE}:/data/db
+#    ports:
+#      - ${DB_PORT}:27017
+#    links:
+#      - php7.4-mg
+  postgres-mg:
+    image: postgres:11.7
+    env_file:
+      - .env
+    networks:
+      - webnet
     environment:
-      MONGO_INITDB_DATABASE: ${DB_DATABASE}
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - ${DB_STORAGE}:/data/db
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE}
+      PG_DATA: ${DB_STORAGE}
     ports:
-      - ${DB_PORT}:27017
-    links:
-      - php7.4-mg
+      - ${DB_PORT}:5432
+    volumes:
+      - pgdata:${DB_STORAGE}
 
   php7.4-mg:
     build:
@@ -30,6 +45,7 @@ services:
       - ${APPLICATION_PATH}:/var/www/html
     links:
       - redis-mg
+      - postgres-mg
 
   nginx-mg:
     image: nginx:stable-alpine

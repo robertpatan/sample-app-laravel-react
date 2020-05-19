@@ -2,8 +2,12 @@
 
 namespace App\Http\Models;
 
-use Jenssegers\Mongodb\Eloquent\Model;
-
-class MovieCast extends Model {
-
+class MovieCast extends AbstractPersonModel
+{
+    protected $table = 'movie_casts';
+    
+    protected $fillable = [
+        'movie_id',
+        'person_id'
+    ];
 }

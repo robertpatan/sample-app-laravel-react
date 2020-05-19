@@ -5,5 +5,8 @@ namespace App\Http\Models;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class Genre extends Model {
-
+    
+    protected $fillable = [
+        'name',
+    ];
 }

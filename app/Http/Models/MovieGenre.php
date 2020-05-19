@@ -4,13 +4,10 @@ namespace App\Http\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class MovieViewingWindow extends Model
-{
-    
+class MovieGenre extends Model {
     protected $fillable = [
-        'start_date',
-        'way_to_watch',
-        'end_date',
+        'movie_id',
+        'genre_id'
     ];
-    
+
 }

@@ -25,6 +25,7 @@ class MovieService
     
     
     /**
+     * @param  int  $limit
      * @return iterable
      */
     public function list($limit = 5): iterable
@@ -32,6 +33,9 @@ class MovieService
         return $this->movieRepository->getAll();
     }
     
+    /**
+     * @param $movieId
+     */
     public function view($movieId)
     {
     

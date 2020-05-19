@@ -18,7 +18,7 @@ class Home extends Component {
 
   render() {
     let movieList = null;
-    if(this.state.movies) {
+    if (this.state.movies) {
       movieList = this.state.movies.map((item) => {
         return <MovieCard movie={item}/>
       });
