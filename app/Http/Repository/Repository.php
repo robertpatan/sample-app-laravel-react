@@ -13,12 +13,23 @@ class Repository
      */
     public function getAll()
     {
-        return $this->model->get();
+        return $this->model->with('keyArtImages')->get();
     }
     
     public function findById($id)
     {
-        return $this->model->find($id);
+        return $this->model
+            ->with(
+                'reviewAuthor',
+                'keyArtImages',
+                'videos.alternatives',
+                'cardImages',
+                'viewingWindow',
+                'cast',
+                'directors',
+                'genres'
+            )
+            ->find($id);
     }
     
     /**

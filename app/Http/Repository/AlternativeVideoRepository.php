@@ -28,7 +28,8 @@ class AlternativeVideoRepository extends Repository
     {
         $entry = new  $this->model();
         $entry->quality = $alternativeVideo['quality'];
-        $entry->url = $alternativeVideo['url'];
+        $entry->original_url = $alternativeVideo['url'];
+        $entry->cache_storage_path = $alternativeVideo['cache_storage_path'];
         
         return $entry;
     }

@@ -34,6 +34,14 @@ class Movie extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+    public function reviewAuthor(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Person::class, 'id', 'review_author_id');
+    }
+    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function viewingWindow(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(MovieViewingWindow::class);

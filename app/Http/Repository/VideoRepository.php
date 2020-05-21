@@ -27,20 +27,14 @@ class VideoRepository extends Repository
      * @param  array  $videoData
      * @return mixed
      */
-    public function insertWithRelation(array $videoData)
+    public function insert(array $videoData)
     {
         $video = new  $this->model();
         $video->title = $videoData['title'];
         $video->type = $videoData['type'];
-        $video->url = $videoData['url'];
+        $video->original_url = $videoData['url'];
+        $video->cache_storage_path = $videoData['cache_storage_path'];
         $video->save();
-        
-        if(!empty($videoData['alternatives'])) {
-            foreach($videoData['alternatives'] as $altData) {
-                $altVideo = $this->alternativeVideoRepository->create($altData);
-                $video->alternatives()->save($altVideo);
-            }
-        }
         
         return $video;
     }

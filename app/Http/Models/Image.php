@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model {
     protected $fillable = [
-        'url',
+        'original_url',
         'height',
-        'width'
+        'width',
+        'cache_storage_path'
     ];
     
 //    public function movies() {

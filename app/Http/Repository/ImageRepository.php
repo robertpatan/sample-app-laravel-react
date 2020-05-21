@@ -40,7 +40,8 @@ class ImageRepository extends Repository
     public function insert(array $imageData): Image
     {
         $entry = new  $this->model();
-        $entry->url = $imageData['url'];
+        $entry->original_url = $imageData['url'];
+        $entry->cache_storage_path = $imageData['cache_storage_path'];
         $entry->height = $imageData['h'] ?? null;
         $entry->width = $imageData['w'] ?? null;
         $entry->save();

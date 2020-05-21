@@ -15,7 +15,8 @@ class CreateImages extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->string('original_url');
+            $table->string('cache_storage_path');
             $table->integer('height')->nullable();
             $table->integer('width')->nullable();
             $table->timestamps();

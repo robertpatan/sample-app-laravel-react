@@ -17,7 +17,8 @@ class CreateVideos extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
-            $table->string('url');
+            $table->string('original_url');
+            $table->string('cache_storage_path');
             $table->timestamps();
         });
     }

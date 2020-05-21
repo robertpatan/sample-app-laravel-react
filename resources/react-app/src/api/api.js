@@ -3,14 +3,23 @@ import queries from './graph-queries'
 
 class Api {
   static apiHost = 'http://mg-app.local/api';
-  static assetUrl = 'http://localhost:1337';
 
+  /**
+   * Return the list of movies
+   * @returns {*}
+   */
   static getMovies() {
     return axios({
       url: `${this.apiHost}/movies`,
       method: 'get',
     });
+  }
 
+  static getMovie(movieId) {
+    return axios({
+      url: `${this.apiHost}/movies/${movieId}` ,
+      method: 'get',
+    });
   }
 
   static getLayoutData() {
@@ -23,11 +32,14 @@ class Api {
 
   /**
    *
-   * @param url
+   * @param assetPath
    * @returns {string}
    */
-  static asset(url) {
-    return this.assetUrl + url;
+  static asset(assetPath) {
+    const url = new URL(`${this.apiHost}/cache-asset`);
+
+    url.searchParams.set('path', btoa(assetPath));
+    return url.href;
   }
 }
 

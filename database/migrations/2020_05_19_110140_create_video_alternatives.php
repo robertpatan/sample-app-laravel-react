@@ -17,7 +17,8 @@ class CreateVideoAlternatives extends Migration
             $table->id();
             $table->unsignedBigInteger('video_id');
             $table->string('quality');
-            $table->string('url');
+            $table->string('original_url');
+            $table->string('cache_storage_path');
             $table->timestamps();
     
             $table->foreign('video_id')->references('id')->on('videos')->cascadeOnDelete();

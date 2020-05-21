@@ -2,14 +2,18 @@
 
 namespace App\Http\Services;
 
+use App\Http\Helper\Util;
 use App\Http\Models\Movie;
+use App\Http\Repository\AlternativeVideoRepository;
 use App\Http\Repository\GenreRepository;
 use App\Http\Repository\ImageRepository;
 use App\Http\Repository\MovieRepository;
 use App\Http\Repository\MovieViewingWindowRepository;
 use App\Http\Repository\PersonRepository;
 use App\Http\Repository\VideoRepository;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class MovieService
 {
@@ -20,6 +24,7 @@ class MovieService
     protected PersonRepository $personRepository;
     protected GenreRepository $genreRepository;
     protected VideoRepository $videoRepository;
+    protected AlternativeVideoRepository $alternativeVideoRepository;
     protected MovieViewingWindowRepository $movieViewingWindowRepository;
     
     /**
@@ -31,6 +36,7 @@ class MovieService
      * @param  PersonRepository  $personRepository
      * @param  GenreRepository  $genreRepository
      * @param  VideoRepository  $videoRepository
+     * @param  AlternativeVideoRepository  $alternativeVideoRepository
      * @param  MovieViewingWindowRepository  $movieViewingWindowRepository
      */
     public function __construct(
@@ -40,6 +46,7 @@ class MovieService
         PersonRepository $personRepository,
         GenreRepository $genreRepository,
         VideoRepository $videoRepository,
+        AlternativeVideoRepository $alternativeVideoRepository,
         MovieViewingWindowRepository $movieViewingWindowRepository
     ) {
         $this->movieRepository = $movieRepository;
@@ -48,6 +55,7 @@ class MovieService
         $this->personRepository = $personRepository;
         $this->genreRepository = $genreRepository;
         $this->videoRepository = $videoRepository;
+        $this->alternativeVideoRepository = $alternativeVideoRepository;
         $this->movieViewingWindowRepository = $movieViewingWindowRepository;
     }
     
@@ -58,15 +66,32 @@ class MovieService
      */
     public function list($limit = 5): iterable
     {
-        return $this->movieRepository->getAll();
+        $maxLength = 250;
+        $movies = $this->movieRepository->getAll();
+        $movies->map(function ($item) use ($maxLength) {
+            
+            if ($item->body) {
+                $item->body = Util::createPreviewDescription($item->body, $maxLength);
+            }
+            
+            return $item;
+        });
+        
+        return $movies;
     }
     
     /**
+     *
+     *
      * @param $movieId
+     * @return Movie
      */
-    public function view($movieId)
+    public function getMovieById($movieId): Movie
     {
-    
+        $movie = $this->movieRepository->findById($movieId);
+        $movie->body = Util::htmlEncodeNewLines($movie->body);
+        
+        return $movie;
     }
     
     /**
@@ -94,96 +119,154 @@ class MovieService
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachCardImage(Movie $model, array $data): void
+    public function attachCardImage(Movie $movie, array $data): void
     {
-        $image = $this->imageRepository->insert($data);
+        $filePath = $this->storeCacheFile($data['url']);
         
-        $model->cardImages()->attach($image->id);
+        if ($filePath) {
+            $data['cache_storage_path'] = $filePath;
+            $image = $this->imageRepository->insert($data);
+            
+            $movie->cardImages()->attach($image->id);
+        }
+        
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachKeyArtImage(Movie $model, array $data): void
+    public function attachKeyArtImage(Movie $movie, array $data): void
     {
-        $image = $this->imageRepository->insert($data);
+        $filePath = $this->storeCacheFile($data['url']);
         
-        $model->keyArtImages()->attach($image->id);
+        if ($filePath) {
+            $data['cache_storage_path'] = $filePath;
+            $image = $this->imageRepository->insert($data);
+            
+            $movie->keyArtImages()->attach($image->id);
+        }
+        
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachDirector(Movie $model, array $data): void
+    public function attachDirector(Movie $movie, array $data): void
     {
         $person = $this->personRepository->insertIfNotExists($data);
         
-        $model->directors()->attach($person->id);
+        $movie->directors()->attach($person->id);
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachCast(Movie $model, array $data): void
+    public function attachCast(Movie $movie, array $data): void
     {
         $person = $this->personRepository->insertIfNotExists($data);
         
-        $model->cast()->attach($person->id);
+        $movie->cast()->attach($person->id);
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachGenre(Movie $model, array $data): void
+    public function attachGenre(Movie $movie, array $data): void
     {
         $genre = $this->genreRepository->insertIfNotExists($data);
         
-        $model->genres()->attach($genre->id);
+        $movie->genres()->attach($genre->id);
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachVideo(Movie $model, array $data): void
+    public function attachVideo(Movie $movie, array $data): void
     {
-        $video = $this->videoRepository->insertWithRelation($data);
+        $filePath = $this->storeCacheFile($data['url']);
         
-        $model->videos()->attach($video->id);
+        if ($filePath) {
+            $data['cache_storage_path'] = $filePath;
+            $video = $this->videoRepository->insert($data);
+            
+            if (!empty($data['alternatives'])) {
+                foreach ($data['alternatives'] as $altData) {
+                    $videoFilePath = $this->storeCacheFile($data['url']);
+                    
+                    if ($videoFilePath) {
+                        $altData['cache_storage_path'] = $filePath;
+                        $altVideo = $this->alternativeVideoRepository->create($altData);
+                        $video->alternatives()->save($altVideo);
+                    }
+                }
+            }
+            
+            
+            $movie->videos()->attach($video->id);
+        }
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachViewingWindow(Movie $model, array $data): void
+    public function attachViewingWindow(Movie $movie, array $data): void
     {
-        $model->viewingWindow()->save($this->movieViewingWindowRepository->create($data));
+        $movie->viewingWindow()->save($this->movieViewingWindowRepository->create($data));
     }
     
     /**
-     * @param  Movie  $model
+     * @param  Movie  $movie
      * @param  array  $data
      * @return void
      */
-    public function attachReviewAuthor(Movie $model, array $data): void
+    public function attachReviewAuthor(Movie $movie, array $data): void
     {
         $person = $this->personRepository->insertIfNotExists($data);
-        $model->review_author_id = $person->id;
-        $model->save();
+        $movie->review_author_id = $person->id;
+        $movie->save();
     }
+    
+    /**
+     *
+     * @param $url
+     * @return bool|string
+     */
+    protected function storeCacheFile($url)
+    {
+        $client = new Client();
+        
+        try {
+            $response = $client->get($url);
+            
+            if ($response->getStatusCode() === 200) {
+                $storage = Storage::disk('cache');
+                $fileName = Util::generateUid();
+                $storage->put($fileName, $response->getBody()->getContents());
+                
+                return $fileName;
+            }
+            
+        } catch (\Exception $e) {
+            \Log::error('Resource is not available: ' . $url);
+        }
+        
+        return null;
+    }
+    
 }
