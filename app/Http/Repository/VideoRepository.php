@@ -38,5 +38,4 @@ class VideoRepository extends Repository
         
         return $video;
     }
-    
 }

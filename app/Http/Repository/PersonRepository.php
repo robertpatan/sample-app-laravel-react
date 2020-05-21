@@ -27,7 +27,7 @@ class PersonRepository extends Repository
     {
         $person = $this->findByName($personData['name']);
         
-        if(!$person) {
+        if (!$person) {
             $person = new  $this->model();
             $person->name = $personData['name'];
             $person->save();
@@ -46,5 +46,4 @@ class PersonRepository extends Repository
     {
         return $this->model->where('name', $name)->first();
     }
-    
 }

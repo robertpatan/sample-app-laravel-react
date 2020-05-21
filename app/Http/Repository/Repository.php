@@ -3,7 +3,6 @@
 
 namespace App\Http\Repository;
 
-
 class Repository
 {
     protected object $model;
@@ -40,5 +39,4 @@ class Repository
     {
         return $this->model->create($modelData);
     }
-    
 }

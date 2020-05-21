@@ -63,14 +63,12 @@ class AppController extends Controller
      */
     public function getCacheAsset(Request $request): \Illuminate\Http\Response
     {
-        
         $storage = \Storage::disk('cache');
         $path = base64_decode($request->path);
         
         if ($storage->exists($path)) {
             $image = $storage->get($path);
             $mimeType = $storage->mimeType($path);
-            
         } else {
             $placeHolderPath = public_path(env('NO_IMAGE_PLACEHOLDER_PATH'));
             $image = file_get_contents($placeHolderPath);
@@ -78,7 +76,6 @@ class AppController extends Controller
         }
         
         return response()->make($image, 200, ['Content-type' => $mimeType]);
-        
     }
     
     /**
@@ -111,6 +108,4 @@ class AppController extends Controller
         
         return response()->make($image, 200, ['Content-type' => $mimeType]);
     }
-    
-    
 }

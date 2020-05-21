@@ -3,7 +3,6 @@
 
 namespace App\Http\Helper;
 
-
 use Exception;
 
 class Util
@@ -346,5 +345,4 @@ class Util
         
         return isset($mimeMap[$mime]) ? $mimeMap[$mime] : false;
     }
-    
 }

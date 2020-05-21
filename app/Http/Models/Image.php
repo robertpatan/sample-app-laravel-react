@@ -4,7 +4,8 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model {
+class Image extends Model
+{
     protected $fillable = [
         'original_url',
         'height',
@@ -15,5 +16,4 @@ class Image extends Model {
 //    public function movies() {
 //        return $this->belongsToMany(Movie::class)->using(CardImageMovie::class);
 //    }
-    
 }

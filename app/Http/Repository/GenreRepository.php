@@ -27,7 +27,7 @@ class GenreRepository extends Repository
     {
         $genre = $this->findByName($data['name']);
         
-        if(!$genre) {
+        if (!$genre) {
             $genre = new  $this->model();
             $genre->name = $data['name'];
             $genre->save();
@@ -46,5 +46,4 @@ class GenreRepository extends Repository
     {
         return $this->model->where('name', $name)->first();
     }
-    
 }

@@ -3,7 +3,6 @@
 
 namespace App\Http\Repository;
 
-
 use App\Http\Models\Movie;
 
 class MovieRepository extends Repository
@@ -55,7 +54,4 @@ class MovieRepository extends Repository
     
         return $model;
     }
-    
-    
-    
 }

@@ -4,5 +4,6 @@ namespace App\Http\Models\Pivot;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class MovieVideo extends Pivot {
+class MovieVideo extends Pivot
+{
 }

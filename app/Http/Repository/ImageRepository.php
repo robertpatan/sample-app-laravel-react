@@ -48,5 +48,4 @@ class ImageRepository extends Repository
         
         return $entry;
     }
-    
 }

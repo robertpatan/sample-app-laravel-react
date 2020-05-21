@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MovieViewingWindow extends Model
 {
-    
     protected $fillable = [
         'start_date',
         'way_to_watch',
         'end_date',
     ];
-    
 }

@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
 {
-    
     protected $fillable = [
         'uid',
         'body',
@@ -94,5 +93,4 @@ class Movie extends Model
     {
         return $this->belongsToMany(Video::class, 'movie_video')->using(MovieVideo::class);
     }
-    
 }

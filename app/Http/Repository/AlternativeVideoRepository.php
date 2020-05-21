@@ -49,5 +49,4 @@ class AlternativeVideoRepository extends Repository
         
         return $entry;
     }
-    
 }

@@ -69,7 +69,6 @@ class MovieService
         $maxLength = 250;
         $movies = $this->movieRepository->getAll();
         $movies->map(function ($item) use ($maxLength) {
-            
             if ($item->body) {
                 $item->body = Util::createPreviewDescription($item->body, $maxLength);
             }
@@ -133,7 +132,6 @@ class MovieService
             
             $movie->cardImages()->attach($image->id);
         }
-        
     }
     
     /**
@@ -151,7 +149,6 @@ class MovieService
             
             $movie->keyArtImages()->attach($image->id);
         }
-        
     }
     
     /**
@@ -261,12 +258,10 @@ class MovieService
                 
                 return $fileName;
             }
-            
         } catch (\Exception $e) {
             \Log::error('Resource is not available: ' . $url);
         }
         
         return null;
     }
-    
 }

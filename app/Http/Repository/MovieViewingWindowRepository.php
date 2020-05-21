@@ -3,7 +3,6 @@
 
 namespace App\Http\Repository;
 
-
 use App\Http\Models\MovieViewingWindow;
 
 class MovieViewingWindowRepository extends Repository
@@ -34,5 +33,4 @@ class MovieViewingWindowRepository extends Repository
         
         return $entry;
     }
-    
 }

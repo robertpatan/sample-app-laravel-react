@@ -4,11 +4,10 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AlternativeVideo extends Model {
-    
+class AlternativeVideo extends Model
+{
     protected $fillable = [
         'url',
         'quality'
     ];
-
 }
