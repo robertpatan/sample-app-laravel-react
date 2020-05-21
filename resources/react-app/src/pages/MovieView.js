@@ -3,7 +3,6 @@ import Layout from "../components/Layout/Layout"
 import Api from "../api/api";
 import {Figure, Spinner} from "react-bootstrap";
 import ImageCarousel from "../components/ImageCarousel";
-import MediaModal from "../components/MediaModal";
 import {Link} from "react-router-dom";
 
 
@@ -11,9 +10,6 @@ class MovieView extends Component {
   state = {
     movie: null,
     isActive: window.location.pathname === '/movies',
-    showModal: false,
-    modalContentType: null,
-    modalUrl: null
   };
 
 
@@ -30,21 +26,24 @@ class MovieView extends Component {
       directors,
       cast,
       imageSection,
-      videos,
-      cardSection,
+      images,
       genres = null;
 
     if (this.state.movie) {
-      let images = movie.key_art_images.map(image => {
-        return (
-          <Figure.Image
-            width={image.width ? image.width : 100}
-            height={image.height ? image.height : 100}
-            src={Api.asset(image.cache_storage_path)}
-            style={{padding: '5px'}}
-          />
-        );
-      });
+      if (movie.key_art_images) {
+        images = movie.key_art_images.map(image => {
+          return (
+            <Figure.Image
+              width={image.width ? image.width : 100}
+              height={image.height ? image.height : 100}
+              src={Api.asset(image.cache_storage_path)}
+              key={image.id}
+              style={{padding: '5px'}}
+            />
+          );
+        });
+      }
+
 
       imageSection = (
         <ImageCarousel images={movie.card_images}/>
@@ -59,30 +58,21 @@ class MovieView extends Component {
 
       directors = movie.directors.map((item, key) => {
         return (
-          <span>{item.name}{key === movie.directors.length - 1 ? '' : ', '}</span>
+          <span key={key}>{item.name}{key === movie.directors.length - 1 ? '' : ', '}</span>
         );
       });
 
       cast = movie.cast.map((item, key) => {
         return (
-          <span>{item.name}{key === movie.cast.length - 1 ? '' : ', '}</span>
+          <span key={key}>{item.name}{key === movie.cast.length - 1 ? '' : ', '}</span>
         );
       });
 
       genres = movie.genres.map((item, key) => {
         return (
-          <span>{item.name}{key === movie.genres.length - 1 ? '' : ', '}</span>
+          <span key={key}>{item.name}{key === movie.genres.length - 1 ? '' : ', '}</span>
         );
       });
-
-      videos = movie.videos.map((item) => {
-        return (
-          <video width="320" height="240" controls>
-            <source src={item.cache_storage_path} type="video/mp4"/>
-            Your browser does not support the video tag.
-          </video>
-        );
-      })
     }
 
     return (
@@ -140,17 +130,11 @@ class MovieView extends Component {
             }
           </div>
         </div>
+
         <div className="col-12">
           <h4>Photos</h4>
           {this.state.movie && imageSection}
         </div>
-
-        <div className="col-12">
-          <h4>Videos</h4>
-          {this.state.movie && videos}
-        </div>
-
-        <MediaModal show={this.state.showModal} type={this.state.modalContentType} url={this.state.modalUrl}/>
 
       </Layout>
     )

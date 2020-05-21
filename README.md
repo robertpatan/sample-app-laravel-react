@@ -30,8 +30,5 @@ run `docker exec -it php7.4-blog bash`  - this will give you access to the php c
 In the project directory /resources/react-app, you can run: yarn start` or `npm run start` .
 The front-end will run on `localhost:3000`
 
-
-
-
 ### Framework: https://laravel.com/docs/7.x
 ### PHP version : 7.4

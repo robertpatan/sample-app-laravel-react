@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import Carousel from "react-bootstrap/Carousel";
-import Api from "../api/api";
 import {Button, Image, Modal} from "react-bootstrap";
 
 class MediaModal extends Component {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class AppController extends Controller
 {
+    public const CACHE_EXPIRE_MINUTES = 60;
     protected object $movieService;
     
     /**
@@ -38,9 +39,7 @@ class AppController extends Controller
      */
     public function getMovies()
     {
-        $expireInMinutes = 60;
-        
-        return Cache::remember('movies', $expireInMinutes, function () {
+        return Cache::remember('movies', self::CACHE_EXPIRE_MINUTES, function () {
             return $this->movieService->list();
         });
     }
@@ -52,7 +51,9 @@ class AppController extends Controller
      */
     public function getMovie($id)
     {
-        return $this->movieService->getMovieById($id);
+        return Cache::remember('movies', self::CACHE_EXPIRE_MINUTES, function () use($id) {
+            return $this->movieService->getMovieById($id);
+        });
     }
     
     
