@@ -21,8 +21,10 @@ modify the `serve_name` directive from `_` to ex: `mg-app.local`, then if you ar
 entry to you `/etc/hosts` to map the local domain to localhost: `127.0.0.1  mg-app.local`.
 
 ## App Deployment
-run `docker-compose up -d` in the project root folder from a terminal. This will boot up the containers.
-run `docker exec -it php7.4-blog bash`  - this will give you access to the php container terminal. In there run:
+1. run `docker-compose up -d` in the project root folder from a terminal. This will boot up the containers.
+
+If you are using the zip with the dependencies included, skip the next step
+2. run `docker exec -it php7.4-blog bash`  - this will give you access to the php container terminal. In there run:
  - `composer install` - installs Laravel framework and dependencies
  - `php artisan key:generate` - generate a key for app encryption
  - `php artisan migrate` - runs the database migrations
