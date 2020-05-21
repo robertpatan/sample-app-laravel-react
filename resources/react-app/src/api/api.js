@@ -21,14 +21,6 @@ class Api {
     });
   }
 
-  static getLayoutData() {
-    return this.getData(queries.layout.query)
-  }
-
-  static getHomeData() {
-    return this.getData(queries.home.query)
-  }
-
   /**
    *
    * @param assetPath
