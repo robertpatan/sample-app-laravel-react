@@ -11,9 +11,8 @@ class ImageCarousel extends Component {
       images = this.props.images.map(image => {
         return (
           <Carousel.Item key={image.id}>
-            <Image className="d-block"
+            <Image className="img-fluid"
               src={Api.asset(image.cache_storage_path)}
-              fluid
              alt=""/>
           </Carousel.Item>
         );
