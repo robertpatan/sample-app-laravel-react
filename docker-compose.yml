@@ -23,7 +23,6 @@ services:
     build:
       context: docker/php
       dockerfile: php.docker
-    container_name: php7.4-mg
     ports:
       - 9000:9000
     volumes:
