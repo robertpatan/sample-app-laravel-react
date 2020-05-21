@@ -38,7 +38,8 @@ The front-end will run on `localhost:3000`
 ### PHP version : 7.4
 
 ## Notes
-I kinda broke the Repository pattern by using the model instance in the MovieService class.
+I knowingly broke the Repository pattern by using the model instance in the MovieService class. Why?
+Because using a repository pattern on this kinda of project is over engineering. Or on any project where it's not very like to switch the persistance layer.
 
 
     public function attachDirector(Movie $movie, array $data): void
