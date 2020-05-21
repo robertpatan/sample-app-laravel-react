@@ -1,68 +1,36 @@
-This project’s frontend was bootstrapped with [Create React App Laravel](https://github.com/mjsarfatti/create-react-app-laravel).
+## Env deployment
+I used Docker to setup my env. The containers info is found in the `docker-compose.yml`.
+Docker Compose is included in the Docker client. https://docs.docker.com/compose/install/
 
-## Available Scripts
+If you do not want to use Docker you need to setup your own PostgreSQL, Redis, Nginx and PHP 7.4 with posgreSQL and redis support and add the credentials
+to the .env file in the project root.
 
-In the project directory, you can run:
+### First step
+After you place the application in a project directory, copy the `.env.example` file and rename it to `.env`.
+Edit the `.env` file and  fill in the variables with the correct information. They are preset to match the docker containers
 
-### `yarn start`
+## Docker
+### Web Server Setup
+Will serve by default from localhost on port 80.
+If you want a custom local domain name for the app, go to `docker/nginx/sites-available/default.conf`,
+modify the `serve_name` directive from `_` to ex: `mg-app.local`, then if you are using a unix based OS, add an
+entry to you `/etc/hosts` to map the local domain to localhost: `127.0.0.1  mg-app.local`.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## App Deployment
+run `docker-compose up -d` in the project root folder from a terminal. This will boot up the containers.
+run `docker exec -it php7.4-blog bash`  this will give you access to the php container terminal. In there run:
+ - `composer install`
+ - `php artisan key:generate`
+ - `php artisan migrate`
+ - `php artisan db:seed` this will call the provided resource link, parse the data and insert into the database and cache the images
+ - ctrl + c to exit
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Start React App
+In the project directory /resources/react-app, you can run:
+### `yarn start` or `npm run start`
 
-### `yarn test`
+## Testing
+### run `php artisan test --env=testing`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to Laravel’s `public` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Framework: https://laravel.com/docs/7.x
+### PHP version : 7.4

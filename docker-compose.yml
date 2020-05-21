@@ -5,18 +5,6 @@ services:
     expose:
       - 6379
 
-  #  mongodb-mg:
-  #    image: mongo:latest
-  #    environment:
-  #      MONGO_INITDB_DATABASE: ${DB_DATABASE}
-  #      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
-  #      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-  #    volumes:
-  #      - ${DB_STORAGE}:/data/db
-  #    ports:
-  #      - ${DB_PORT}:27017
-  #    links:
-  #      - php7.4-mg
   postgres-mg:
     image: postgres:11.7
     env_file:

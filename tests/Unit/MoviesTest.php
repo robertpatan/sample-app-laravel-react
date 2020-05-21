@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 class MoviesTest extends \Tests\TestCase
 {
     use DatabaseMigrations;
-    //    use RefreshDatabase;
     
     protected FeedService $feedService;
     protected MovieService $movieService;
