@@ -51,7 +51,7 @@ class AppController extends Controller
      */
     public function getMovie($id)
     {
-        return Cache::remember('movies', self::CACHE_EXPIRE_MINUTES, function () use($id) {
+        return Cache::remember('movie_' . $id, self::CACHE_EXPIRE_MINUTES, function () use($id) {
             return $this->movieService->getMovieById($id);
         });
     }
