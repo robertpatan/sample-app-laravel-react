@@ -1,8 +1,7 @@
 import * as axios from "axios"
-import queries from './graph-queries'
 
 class Api {
-  static apiHost = 'http://mg-app.local/api';
+  static apiHost = 'http://127.0.0.1/api';
 
   /**
    * Return the list of movies
