@@ -1,3 +1,7 @@
+## Source code
+Back-end main business logic is in ./app/Http and ./database/seeds/DatabaseSeeder
+Front-end is in ./resources/react-app. Don't focus on this, I made it fast and messy :)
+
 ## Env deployment
 I used Docker to setup my env. The containers info is found in the `docker-compose.yml`.
 Docker Compose is included in the Docker client. https://docs.docker.com/compose/install/
@@ -32,3 +36,17 @@ The front-end will run on `localhost:3000`
 
 ### Framework: https://laravel.com/docs/7.x
 ### PHP version : 7.4
+
+## Notes
+I kinda broke the Repository pattern by using the model instance in the MovieService class.
+
+`
+public function attachDirector(Movie $movie, array $data): void
+    {
+        $person = $this->personRepository->insertIfNotExists($data);
+
+        **$movie->directors()->attach($person->id);**
+    }
+`
+
+
