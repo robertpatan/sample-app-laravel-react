@@ -41,7 +41,7 @@ The front-end will run on `localhost:3000`
 I kinda broke the Repository pattern by using the model instance in the MovieService class.
 
 
-public function attachDirector(Movie $movie, array $data): void
+    public function attachDirector(Movie $movie, array $data): void
     {
         $person = $this->personRepository->insertIfNotExists($data);
 
