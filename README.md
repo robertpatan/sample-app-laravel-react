@@ -33,9 +33,7 @@ entry to you `/etc/hosts` to map the local domain to localhost: `127.0.0.1  mg-a
  - to run tests: `php artisan test --env=testing`. Unit test will use  the .env.testing file so make sure it's correctly set up as well
  - ctrl + c to exit
 
-## Start React App
-In the project directory /resources/react-app, you can run: yarn start` or `npm run start` .
-The front-end will run on `localhost:3000`
+#### Typing http://localhost or http://127.0.0.1 in the browser should load the front-end
 
 ### Framework: https://laravel.com/docs/7.x
 ### PHP version : 7.4
